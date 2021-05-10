@@ -1,10 +1,23 @@
 #include "Texture.h"
 #include "Button.h"
 #include <SDL_image.h>
+#include <windows.h>
+#include <iostream>
+#include <thread> 
+using namespace std;
+
+void reg();
+void pre_main();
+void start();
+void register_();
+void shop_cards();
+void shop_fields();
+void achiv();
+void main_manu();
 
 bool init();
 bool loadMedia();
-void close();
+void close();      
 void upCard_1();
 void upCard_2();
 void dwCard_1();
@@ -48,6 +61,17 @@ SDL_Rect gSpriteClips[BUTTON_SPRITE_TOTAL];
 LTexture gButtonSpriteSheetTexture;
 LTexture gButtonSpriteSheetTexture2;
 
+LTexture gFooTexture_pre_play;
+LTexture gFooTexture_register_login;
+LTexture gFooTexture_pre;
+
+LTexture gFooTexture_register;
+
+LTexture gFooTexture_shop_cards;
+LTexture gFooTexture_shop_fields;
+LTexture gFooTexture_achiv;
+
+LTexture gFooTexture_main_menu;
 // textures cards
 LTexture gFooTexture;
 LTexture gFooTexture_4;
@@ -140,9 +164,68 @@ LTexture gFooTexture_won;
 LTexture gBackgroundTexture;
 
 
+LTexture gInputTextTexture;
+LTexture gTextTexture;
+
+
 int main(int argc, char* args[])
 {
-	
+	//register_();// TODO
+	pre_main();// TODO
+	//start(); TODO
+	//shop_cards();// TODO
+	//shop_fields();// TODO
+	//achiv();// TODO
+	//main_manu();// TODO
+	return 0;
+}
+
+void pre_main() {
+	if (!init())
+	{
+		printf("Failed to initialize!\n");
+	}
+	else
+	{
+		//Load media
+		if (!loadMedia())
+		{
+			printf("Failed to load media!\n");
+		}
+		else
+		{
+			bool quit = false;
+			SDL_Event pre;
+		
+
+			
+			while (!quit) {
+				while (SDL_PollEvent(&pre) != 0)
+				{
+					//User requests quit
+					if (pre.type == SDL_QUIT)
+					{
+						quit = true;
+					}
+
+					gButtons[2].handleEventPre(&pre, 'p');
+					gButtons[3].handleEventPre(&pre, 'r');
+				}
+
+				gFooTexture_pre.render(0, 0);
+				gButtons[2].renderPrePlay();
+				
+				gButtons[3].renderRegLog();
+
+				SDL_RenderPresent(gRenderer);
+				SDL_Delay(1);
+			}
+		}
+	}
+}
+
+void start() {
+
 	//Start up SDL and create window
 	if (!init())
 	{
@@ -178,22 +261,22 @@ int main(int argc, char* args[])
 			string card_up_1;
 			card_up_1 = stickman.printSmCards(0);
 			cards.delCard(card_up_1);
-			
-			
+
+
 			upCard_1();
 			upCard_2();
 			dwCard_1();
 			dwCard_2();
-			
+
 			anCard(card_up_1, 680, 53);
-			
+
 			player player;
-			
+
 			player.takeCard(cards);
-			
+
 			string card_dw_1;
 			card_dw_1 = player.printSmCards(0);
-			
+
 			cards.delCard(card_dw_1);
 			anCard(card_dw_1, 680, 470);
 
@@ -203,24 +286,24 @@ int main(int argc, char* args[])
 			card_dw_2 = player.printSmCards(1);
 			cards.delCard(card_dw_2);
 			anCard(card_dw_2, 580, 470);
-			
+
 			player.setCheckSum(card_dw_1);
 			player.setCheckSum(card_dw_2);
-			
+
 			player.takeCard(cards);
 			string card_dw_3 = player.printSmCards(2);
 			cards.delCard(card_dw_3);
-			
+
 			player.takeCard(cards);
 			string card_dw_4 = player.printSmCards(3);
 			cards.delCard(card_dw_4);
-			
-			
+
+
 			stickman.takeCard(cards);
 			string card_up_2 = stickman.printSmCards(1);
 			cards.delCard(card_up_2);
 			stickman.setCheckSum(card_up_1);
-			
+
 
 			player.takeCard(cards);
 			string card_dw_5 = player.printSmCards(4);
@@ -233,7 +316,7 @@ int main(int argc, char* args[])
 			player.takeCard(cards);
 			string card_dw_7 = player.printSmCards(6);
 			cards.delCard(card_dw_7);
-			
+
 			stickman.takeCard(cards);
 			string card_up_3 = stickman.printSmCards(2);
 			cards.delCard(card_up_3);
@@ -253,18 +336,18 @@ int main(int argc, char* args[])
 			stickman.takeCard(cards);
 			string card_up_7 = stickman.printSmCards(6);
 			cards.delCard(card_up_7);
-			
-			
+
+
 
 			if (card_up_1 == "A_H" || card_up_1 == "A_S" || card_up_1 == "A_C" || card_up_1 == "A_D") countAstickman++;
 			if (card_up_2 == "A_H" || card_up_2 == "A_S" || card_up_2 == "A_C" || card_up_2 == "A_D") countAstickman++;
-			
+
 
 			if (card_dw_1 == "A_H" || card_dw_1 == "A_S" || card_dw_1 == "A_C" || card_dw_1 == "A_D") countAplayer++;
 			if (card_dw_2 == "A_H" || card_dw_2 == "A_S" || card_dw_2 == "A_C" || card_dw_2 == "A_D") countAplayer++;
-		
-		
-			
+
+
+
 			while (!quit)
 			{
 				//Handle events on queue
@@ -285,10 +368,10 @@ int main(int argc, char* args[])
 				if (countCards == 2 && p1 == 0) {
 					anCount(stickman.getCheckSum(), 650, 200);
 					p1++;
-										
+
 					if (player.getCheckSum() == 21) {
 						res = "win";
-						anRes(res, 200, 50);	
+						anRes(res, 200, 50);
 						for (int i = 0; i < 3000; i++) {
 							SDL_Delay(1);
 							anCount(stickman.getCheckSum(), 650, 200);
@@ -344,7 +427,7 @@ int main(int argc, char* args[])
 							quit = true;
 						}
 					}
-					
+
 					anCount(stickman.getCheckSum(), 650, 200);
 					p2++;
 					anCount(player.getCheckSum(), 650, 400);
@@ -538,7 +621,7 @@ int main(int argc, char* args[])
 							}
 							quit = true;
 							goto finish;
-							
+
 						}
 						else {
 							stickman.setCheckSum(card_up_3);
@@ -712,10 +795,10 @@ int main(int argc, char* args[])
 												goto finish;
 											}
 											else {
-												finishW:
+											finishW:
 												res = "win";
 												SDL_Delay(1000);
-												anRes(res, 200, 50);												
+												anRes(res, 200, 50);
 												for (int i = 0; i < 3000; i++) {
 													SDL_Delay(1);
 													anRes(res, 200, 50);
@@ -738,17 +821,138 @@ int main(int argc, char* args[])
 					}
 					quit = true;
 				}
-				
+
 				gButtons[0].render();
 				gButtons[1].render2();
 				SDL_RenderPresent(gRenderer);
 
 			}
 		}
-		finish:
+	finish:
 		//Free resources and close SDL
 		close();
-		return 0;
+		//return 0;
+	}
+}
+
+void register_() {
+	if (!init())
+	{
+		printf("Failed to initialize!\n");
+	}
+	else
+	{
+		//Load media
+		if (!loadMedia())
+		{
+			printf("Failed to load media!\n");
+		}
+		else
+		{
+			bool quit = false;
+			while (!quit) {
+				gFooTexture_register.render(0, 0);
+				SDL_RenderPresent(gRenderer);
+				reg();
+				SDL_Delay(1);
+			}
+		}
+	}
+}
+
+void shop_cards() {
+	if (!init())
+	{
+		printf("Failed to initialize!\n");
+	}
+	else
+	{
+		//Load media
+		if (!loadMedia())
+		{
+			printf("Failed to load media!\n");
+		}
+		else
+		{
+			bool quit = false;
+			while (!quit) {
+				gFooTexture_shop_cards.render(0, 0);
+				SDL_RenderPresent(gRenderer);
+				SDL_Delay(1);
+			}
+		}
+	}
+}
+
+void shop_fields() {
+	if (!init())
+	{
+		printf("Failed to initialize!\n");
+	}
+	else
+	{
+		//Load media
+		if (!loadMedia())
+		{
+			printf("Failed to load media!\n");
+		}
+		else
+		{
+			bool quit = false;
+			while (!quit) {
+				gFooTexture_shop_fields.render(0, 0);
+				SDL_RenderPresent(gRenderer);
+				SDL_Delay(1);
+			}
+		}
+	}
+}
+
+void achiv() {
+	if (!init())
+	{
+		printf("Failed to initialize!\n");
+	}
+	else
+	{
+		//Load media
+		if (!loadMedia())
+		{
+			printf("Failed to load media!\n");
+		}
+		else
+		{
+			bool quit = false;
+			while (!quit) {
+				gFooTexture_achiv.render(0, 0);
+				SDL_RenderPresent(gRenderer);
+				SDL_Delay(1);
+			}
+		}
+	}
+}
+
+void main_manu() {
+	if (!init())
+	{
+		printf("Failed to initialize!\n");
+	}
+	else
+	{
+		//Load media
+		if (!loadMedia())
+		{
+			printf("Failed to load media!\n");
+		}
+		else
+		{
+			bool quit = false;
+			while (!quit) {
+				gFooTexture_main_menu.render(0, 0);
+				SDL_RenderPresent(gRenderer);
+				SDL_Delay(1);
+			}
+		}
 	}
 }
 
@@ -811,6 +1015,18 @@ bool loadMedia()
 
 	//Loading success flag
 	bool success = true;
+
+
+
+
+
+
+
+	if (!gFooTexture_pre.loadFromFile("images/pre_main.png", gRenderer))
+	{
+		printf("Failed to load images/pre_main.png texture image!\n");
+		success = false;
+	}
 
 	//Load Foo' texture
 	if (!gFooTexture.loadFromFile("images/card_shirt_1.png", gRenderer))
@@ -1289,6 +1505,36 @@ bool loadMedia()
 		success = false;
 	}
 
+	if (!gFooTexture_register.loadFromFile("images/register.png", gRenderer))
+	{
+		printf("Failed to load register texture image!\n");
+		success = false;
+	}
+
+	if (!gFooTexture_shop_cards.loadFromFile("images/shop_cards.png", gRenderer))
+	{
+		printf("Failed to load shop_cards texture image!\n");
+		success = false;
+	}
+
+	if (!gFooTexture_shop_fields.loadFromFile("images/shop_fields.png", gRenderer))
+	{
+		printf("Failed to load shop_fields texture image!\n");
+		success = false;
+	}
+
+	if (!gFooTexture_achiv.loadFromFile("images/achivments.png", gRenderer))
+	{
+		printf("Failed to load achivments texture image!\n");
+		success = false;
+	}
+
+	if (!gFooTexture_main_menu.loadFromFile("images/main_menu.png", gRenderer))
+	{
+		printf("Failed to load main_menu texture image!\n");
+		success = false;
+	}
+	
 	if (!gButtonSpriteSheetTexture.loadFromFile("images/hit_an.png", gRenderer))
 	{
 		printf("Failed to load button sprite texture!\n");
@@ -1335,6 +1581,39 @@ bool loadMedia()
 		//gButtons[3].setPosition(SCREEN_WIDTH - BUTTON_WIDTH, SCREEN_HEIGHT - BUTTON_HEIGHT);
 	}
 
+	if (!gFooTexture_pre_play.loadFromFile("images/pre_play.png", gRenderer))
+	{
+		printf("Failed to load images/pre_play.png texture image!\n");
+		success = false;
+	}
+	else 
+	{
+		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
+		{
+			gSpriteClips[i].x = 0;
+			gSpriteClips[i].y = i * 70;
+			gSpriteClips[i].w = BUTTON_WIDTH_pre;
+			gSpriteClips[i].h = BUTTON_HEIGHT_pre;
+		}
+		gButtons[2].setPosition(329, 300);
+	}
+
+	if (!gFooTexture_register_login.loadFromFile("images/register_login.png", gRenderer))
+	{
+		printf("Failed to load images/register_login.png texture image!\n");
+		success = false;
+	}
+	else
+	{
+		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
+		{
+			gSpriteClips[i].x = 0;
+			gSpriteClips[i].y = i * 80;
+			gSpriteClips[i].w = BUTTON_WIDTH_reg;
+			gSpriteClips[i].h = BUTTON_HEIGHT_reg;
+		}
+		gButtons[3].setPosition(329, 400);
+	}
 	return success;
 }
 
@@ -2892,6 +3171,18 @@ void LButton::render2()
 	gButtonSpriteSheetTexture2.render(mPosition.x, mPosition.y, &gSpriteClips[mCurrentSprite]);
 }
 
+void LButton::renderPrePlay()
+{
+	gFooTexture_pre_play.render(mPosition.x, mPosition.y, &gSpriteClips[mCurrentSprite]);
+
+}
+
+void LButton::renderRegLog()
+{
+	gFooTexture_register_login.render(mPosition.x, mPosition.y, &gSpriteClips[mCurrentSprite]);
+
+}
+
 void LButton::handleEvent(SDL_Event* e, player player, deck cards, string card_up_1, string card_up_2, string  card_dw_1, string  card_dw_2, string card_dw_3, char h_s)
 {
 	if (h_s == 'h') {
@@ -3010,6 +3301,7 @@ void LButton::handleEvent(SDL_Event* e, player player, deck cards, string card_u
 			}
 		}
 	}
+
 	if (h_s == 's') {
 		//If mouse event happened
 		if (e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP)
@@ -3072,6 +3364,150 @@ void LButton::handleEvent(SDL_Event* e, player player, deck cards, string card_u
 			}
 		}
 	}
+	
+}
+
+void reg()
+{
+	string login, pass;
+	cin >> login;
+	cin >> pass;
+	if (1 == 1) {
+		main_manu();
+	}
+	else {
+		cout << "some";
+	}
+}
+
+void LButton::handleEventPre(SDL_Event* pre, char p_r) {
+	if (p_r == 'p') {
+		//If mouse event happened
+		if (pre->type == SDL_MOUSEMOTION || pre->type == SDL_MOUSEBUTTONDOWN || pre->type == SDL_MOUSEBUTTONUP)
+		{
+			//Get mouse position
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+
+			//Check if mouse is in button
+			bool inside = true;
+
+			//Mouse is left of the button
+			if (x < mPosition.x)
+			{
+				inside = false;
+			}
+			//Mouse is right of the button
+			else if (x > mPosition.x + BUTTON_WIDTH_pre)
+			{
+				inside = false;
+			}
+			//Mouse above the button
+			else if (y < mPosition.y)
+			{
+				inside = false;
+			}
+			//Mouse below the button
+			else if (y > mPosition.y + BUTTON_HEIGHT_pre)
+			{
+				inside = false;
+			}
+
+			//Mouse is outside button
+			if (!inside)
+			{
+				mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+			}
+			//Mouse is inside button
+			else
+			{
+				//Set mouse over sprite
+				switch (pre->type)
+				{
+				case SDL_MOUSEMOTION:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+					break;
+
+				case SDL_MOUSEBUTTONDOWN:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+					cout << "KYKAREKY" << endl;
+					//cout << "KYKAREKY" << endl;
+					break;
+
+				}
+			}
+		}
+	}
+
+	if (p_r == 'r') {
+		//If mouse event happened
+		if (pre->type == SDL_MOUSEMOTION || pre->type == SDL_MOUSEBUTTONDOWN || pre->type == SDL_MOUSEBUTTONUP)
+		{
+			//Get mouse position
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+
+			//Check if mouse is in button
+			bool inside = true;
+
+			//Mouse is left of the button
+			if (x < mPosition.x)
+			{
+				inside = false;
+			}
+			//Mouse is right of the button
+			else if (x > mPosition.x + BUTTON_WIDTH_reg)
+			{
+				inside = false;
+			}
+			//Mouse above the button
+			else if (y < mPosition.y)
+			{
+				inside = false;
+			}
+			//Mouse below the button
+			else if (y > mPosition.y + BUTTON_HEIGHT_reg)
+			{
+				inside = false;
+			}
+
+			//Mouse is outside button
+			if (!inside)
+			{
+				mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+			}
+			//Mouse is inside button
+			else
+			{
+				//Set mouse over sprite
+				switch (pre->type)
+				{
+				case SDL_MOUSEMOTION:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+					break;
+
+				case SDL_MOUSEBUTTONDOWN:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+					
+					register_();
+
+					
+					
+					//cout << "KYKAREKY" << endl;
+					break;
+
+				}
+			}
+		}
+	}
 }
 
 void LTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
@@ -3089,3 +3525,4 @@ void LTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* cen
 	//Render to screen
 	SDL_RenderCopyEx(gRenderer, mTexture, clip, &renderQuad, angle, center, flip);
 }
+
