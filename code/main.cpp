@@ -58,12 +58,15 @@ SDL_Renderer* gRenderer = NULL;
 
 //Mouse button sprites
 SDL_Rect gSpriteClips[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClips_st[BUTTON_SPRITE_TOTAL];
+
 LTexture gButtonSpriteSheetTexture;
 LTexture gButtonSpriteSheetTexture2;
 
 LTexture gFooTexture_pre_play;
 LTexture gFooTexture_register_login;
 LTexture gFooTexture_pre;
+LTexture gFooTexture_start;
 
 LTexture gFooTexture_register;
 
@@ -163,20 +166,20 @@ LTexture gFooTexture_won;
 
 LTexture gBackgroundTexture;
 
-
 LTexture gInputTextTexture;
 LTexture gTextTexture;
+
 
 
 int main(int argc, char* args[])
 {
 	//register_();// TODO
-	pre_main();// TODO
+//	pre_main();// TODO
 	//start(); TODO
 	//shop_cards();// TODO
 	//shop_fields();// TODO
 	//achiv();// TODO
-	//main_manu();// TODO
+	main_manu();// TODO
 	return 0;
 }
 
@@ -946,9 +949,24 @@ void main_manu() {
 		}
 		else
 		{
+			
+			SDL_Event st;
 			bool quit = false;
 			while (!quit) {
+				while (SDL_PollEvent(&st) != 0)
+				{
+					//User requests quit
+					if (st.type == SDL_QUIT)
+					{
+						quit = true;
+					}
+
+					gButtons[4].handleEventStart(&st, 'S');
+					
+				}
 				gFooTexture_main_menu.render(0, 0);
+
+				gButtons[4].renderST();
 				SDL_RenderPresent(gRenderer);
 				SDL_Delay(1);
 			}
@@ -1010,6 +1028,7 @@ bool init()
 	return success;
 }
 
+
 bool loadMedia()
 {
 
@@ -1020,7 +1039,7 @@ bool loadMedia()
 
 
 
-
+	
 
 	if (!gFooTexture_pre.loadFromFile("images/pre_main.png", gRenderer))
 	{
@@ -1574,11 +1593,9 @@ bool loadMedia()
 			gSpriteClips[i].h = BUTTON_HEIGHT;
 		}
 
-		//Set buttons in corners
-		//gButtons[0].setPosition(229, 247);
+		
 		gButtons[1].setPosition(429, 247);
-		//gButtons[2].setPosition(0, SCREEN_HEIGHT - BUTTON_HEIGHT);
-		//gButtons[3].setPosition(SCREEN_WIDTH - BUTTON_WIDTH, SCREEN_HEIGHT - BUTTON_HEIGHT);
+		
 	}
 
 	if (!gFooTexture_pre_play.loadFromFile("images/pre_play.png", gRenderer))
@@ -1614,7 +1631,27 @@ bool loadMedia()
 		}
 		gButtons[3].setPosition(329, 400);
 	}
+
+	if (!gFooTexture_start.loadFromFile("images/Start_button.png", gRenderer))
+	{
+		printf("Failed to load Start_button texture image!\n");
+		success = false;
+	}
+	else
+	{
+		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
+		{
+			gSpriteClips_st[i].x = 0;
+			gSpriteClips_st[i].y = i * 100;
+			gSpriteClips_st[i].w = 248;
+			gSpriteClips_st[i].h = 100;
+		}
+		gButtons[4].setPosition(85, 479);
+	}
+
 	return success;
+
+	
 }
 
 void close()
@@ -3183,6 +3220,12 @@ void LButton::renderRegLog()
 
 }
 
+void LButton::renderST()
+{
+	gFooTexture_start.render(mPosition.x, mPosition.y, &gSpriteClips_st[mCurrentSprite]);
+
+}
+
 void LButton::handleEvent(SDL_Event* e, player player, deck cards, string card_up_1, string card_up_2, string  card_dw_1, string  card_dw_2, string card_dw_3, char h_s)
 {
 	if (h_s == 'h') {
@@ -3501,6 +3544,71 @@ void LButton::handleEventPre(SDL_Event* pre, char p_r) {
 
 					
 					
+					//cout << "KYKAREKY" << endl;
+					break;
+
+				}
+			}
+		}
+	}
+}
+
+void LButton::handleEventStart(SDL_Event* str, char st) {
+	//cout << "ewrwerwerwerwer";
+	if (st == 'S') {
+		//cout << "ewrwerwerwerwer";		//If mouse event happened
+		if (str->type == SDL_MOUSEMOTION || str->type == SDL_MOUSEBUTTONDOWN || str->type == SDL_MOUSEBUTTONUP)
+		{
+			//Get mouse position
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+
+			//Check if mouse is in button
+			bool inside = true;
+
+			//Mouse is left of the button
+			if (x < mPosition.x)
+			{
+				inside = false;
+			}
+			//Mouse is right of the button
+			else if (x > mPosition.x + 248)
+			{
+				inside = false;
+			}
+			//Mouse above the button
+			else if (y < mPosition.y)
+			{
+				inside = false;
+			}
+			//Mouse below the button
+			else if (y > mPosition.y + 100)
+			{
+				inside = false;
+			}
+
+			//Mouse is outside button
+			if (!inside)
+			{
+				mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+			}
+			//Mouse is inside button
+			else
+			{
+				//Set mouse over sprite
+				switch (str->type)
+				{
+				case SDL_MOUSEMOTION:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+					break;
+
+				case SDL_MOUSEBUTTONDOWN:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+					cout << "start" << endl;
 					//cout << "KYKAREKY" << endl;
 					break;
 
