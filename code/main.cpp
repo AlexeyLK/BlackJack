@@ -59,6 +59,18 @@ SDL_Renderer* gRenderer = NULL;
 //Mouse button sprites
 SDL_Rect gSpriteClips[BUTTON_SPRITE_TOTAL];
 SDL_Rect gSpriteClips_st[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsPrePlay[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsRegLog[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsBack[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsf1[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsf2[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsf3[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsf4[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsShop[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsAch[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsBoards[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsCards[BUTTON_SPRITE_TOTAL];
+
 
 LTexture gButtonSpriteSheetTexture;
 LTexture gButtonSpriteSheetTexture2;
@@ -174,12 +186,12 @@ LTexture gTextTexture;
 int main(int argc, char* args[])
 {
 	//register_();// TODO
-//	pre_main();// TODO
+	pre_main();// TODO
 	//start(); TODO
 	//shop_cards();// TODO
 	//shop_fields();// TODO
 	//achiv();// TODO
-	main_manu();// TODO
+	//main_manu();// TODO
 	return 0;
 }
 
@@ -227,7 +239,7 @@ void pre_main() {
 	}
 }
 
-void start() {
+void start(string start) {
 
 	//Start up SDL and create window
 	if (!init())
@@ -382,7 +394,12 @@ void start() {
 							anRes(res, 200, 50);
 							SDL_RenderPresent(gRenderer);
 						}
-						quit = true;
+						stickman.checkSum = 0;
+						player.checkSum = 0;
+						player.smCards.erase(player.smCards.begin(), player.smCards.end());
+						stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+						if (start == "demo") pre_main();
+						else quit = true; //TODO
 					}
 					if (player.getCheckSum() == 22) {
 						player.min10();
@@ -405,7 +422,10 @@ void start() {
 							anRes(res, 200, 50);
 							SDL_RenderPresent(gRenderer);
 						}
-						quit = true;
+						stickman.checkSum = 0;
+						player.checkSum = 0;
+						if (start == "demo") pre_main();
+						else quit = true; //TODO
 					}
 					if (player.getCheckSum() > 21) {
 						if (countAplayer > 0) {
@@ -427,7 +447,12 @@ void start() {
 								anRes(res, 200, 50);
 								SDL_RenderPresent(gRenderer);
 							}
-							quit = true;
+							stickman.checkSum = 0;
+							player.checkSum = 0;
+							player.smCards.erase(player.smCards.begin(), player.smCards.end());
+							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+							if (start == "demo") pre_main();
+							else quit = true; //TODO
 						}
 					}
 
@@ -448,7 +473,12 @@ void start() {
 							anRes(res, 200, 50);
 							SDL_RenderPresent(gRenderer);
 						}
-						quit = true;
+						stickman.checkSum = 0;
+						player.checkSum = 0;
+						player.smCards.erase(player.smCards.begin(), player.smCards.end());
+						stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+						if (start == "demo") pre_main();
+						else quit = true; //TODO
 					}
 					if (player.getCheckSum() > 21) {
 						if (countAplayer > 0) {
@@ -470,7 +500,12 @@ void start() {
 								anRes(res, 200, 50);
 								SDL_RenderPresent(gRenderer);
 							}
-							quit = true;
+							stickman.checkSum = 0;
+							player.checkSum = 0;
+							player.smCards.erase(player.smCards.begin(), player.smCards.end());
+							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+							if (start == "demo") pre_main();
+							else quit = true; //TODO
 						}
 					}
 					anCount(stickman.getCheckSum(), 650, 200);
@@ -490,7 +525,12 @@ void start() {
 							anRes(res, 200, 50);
 							SDL_RenderPresent(gRenderer);
 						}
-						quit = true;
+						stickman.checkSum = 0;
+						player.checkSum = 0;
+						player.smCards.erase(player.smCards.begin(), player.smCards.end());
+						stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+						if (start == "demo") pre_main();
+						else quit = true; //TODO
 					}
 					if (player.getCheckSum() > 21) {
 						if (countAplayer > 0) {
@@ -513,7 +553,12 @@ void start() {
 								anRes(res, 200, 50);
 								SDL_RenderPresent(gRenderer);
 							}
-							quit = true;
+							stickman.checkSum = 0;
+							player.checkSum = 0;
+							player.smCards.erase(player.smCards.begin(), player.smCards.end());
+							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+							if (start == "demo") pre_main();
+							else quit = true; //TODO
 						}
 					}
 					p4++;
@@ -532,7 +577,12 @@ void start() {
 							anRes(res, 200, 50);
 							SDL_RenderPresent(gRenderer);
 						}
-						quit = true;
+						stickman.checkSum = 0;
+						
+						player.smCards.erase(player.smCards.begin(), player.smCards.end());
+						stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+						if (start == "demo") pre_main();
+						else quit = true; //TODO
 					}
 					if (player.getCheckSum() > 21) {
 						if (countAplayer > 0) {
@@ -554,7 +604,12 @@ void start() {
 								anRes(res, 200, 50);
 								SDL_RenderPresent(gRenderer);
 							}
-							quit = true;
+							stickman.checkSum = 0;
+							player.checkSum = 0;
+							player.smCards.erase(player.smCards.begin(), player.smCards.end());
+							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+							if (start == "demo") pre_main();
+							else quit = true; //TODO
 						}
 					}
 					p5++;
@@ -579,7 +634,12 @@ void start() {
 								anRes(res, 200, 50);
 								SDL_RenderPresent(gRenderer);
 							}
-							quit = true;
+							stickman.checkSum = 0;
+							player.checkSum = 0;
+							player.smCards.erase(player.smCards.begin(), player.smCards.end());
+							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+							if (start == "demo") pre_main();
+							else quit = true; //TODO
 						}
 					}
 					if (player.getCheckSum() > 21) {
@@ -597,7 +657,12 @@ void start() {
 							anRes(res, 200, 50);
 							SDL_RenderPresent(gRenderer);
 						}
-						quit = true;
+						stickman.checkSum = 0;
+						player.checkSum = 0;
+						player.smCards.erase(player.smCards.begin(), player.smCards.end());
+						stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+						if (start == "demo") pre_main();
+						else quit = true; //TODO
 					}
 					p6++;
 					anCount(player.getCheckSum(), 650, 400);
@@ -622,7 +687,12 @@ void start() {
 								anRes(res, 200, 50);
 								SDL_RenderPresent(gRenderer);
 							}
-							quit = true;
+							stickman.checkSum = 0;
+							player.checkSum = 0;
+							player.smCards.erase(player.smCards.begin(), player.smCards.end());
+							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+							if (start == "demo") pre_main();
+							else quit = true; //TODO
 							goto finish;
 
 						}
@@ -652,12 +722,22 @@ void start() {
 									anRes(res, 200, 50);
 									SDL_RenderPresent(gRenderer);
 								}
-								quit = true;
+								stickman.checkSum = 0;
+								player.checkSum = 0;
+								player.smCards.erase(player.smCards.begin(), player.smCards.end());
+								stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+								if (start == "demo") pre_main();
+								else quit = true; //TODO
 								goto finish;
 							}
 							else {
 								if (stickman.getCheckSum() > 21) {
-									quit = true;
+									stickman.checkSum = 0;
+									player.checkSum = 0;
+									player.smCards.erase(player.smCards.begin(), player.smCards.end());
+									stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+									if (start == "demo") pre_main();
+									else quit = true; //TODO
 									goto finishW;
 								}
 								stickman.setCheckSum(card_up_4);
@@ -686,12 +766,23 @@ void start() {
 										anRes(res, 200, 50);
 										SDL_RenderPresent(gRenderer);
 									}
-									quit = true;
+									stickman.checkSum = 0;
+									player.checkSum = 0;
+									player.smCards.erase(player.smCards.begin(), player.smCards.end());
+									stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+
+									if (start == "demo") pre_main();
+									else quit = true; //TODO
 									goto finish;
 								}
 								else {
 									if (stickman.getCheckSum() > 21) {
-										quit = true;
+										stickman.checkSum = 0;
+										player.checkSum = 0;
+										player.smCards.erase(player.smCards.begin(), player.smCards.end());
+										stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+										if (start == "demo") pre_main();
+										else quit = true; //TODO
 										goto finishW;
 									}
 									stickman.setCheckSum(card_up_5);
@@ -721,12 +812,22 @@ void start() {
 											anRes(res, 200, 50);
 											SDL_RenderPresent(gRenderer);
 										}
-										quit = true;
+										stickman.checkSum = 0;
+										player.checkSum = 0;
+										player.smCards.erase(player.smCards.begin(), player.smCards.end());
+										stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+										if (start == "demo") pre_main();
+										else quit = true; //TODO
 										goto finish;
 									}
 									else {
 										if (stickman.getCheckSum() > 21) {
-											quit = true;
+											stickman.checkSum = 0;
+											player.checkSum = 0;
+											player.smCards.erase(player.smCards.begin(), player.smCards.end());
+											stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+											if (start == "demo") pre_main();
+											else quit = true; //TODO
 											goto finishW;
 										}
 										stickman.setCheckSum(card_up_6);
@@ -757,12 +858,22 @@ void start() {
 												anRes(res, 200, 50);
 												SDL_RenderPresent(gRenderer);
 											}
-											quit = true;
+											stickman.checkSum = 0;
+											player.checkSum = 0;
+											player.smCards.erase(player.smCards.begin(), player.smCards.end());
+											stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+											if (start == "demo") pre_main();
+											else quit = true; //TODO
 											goto finish;
 										}
 										else {
 											if (stickman.getCheckSum() > 21) {
-												quit = true;
+												stickman.checkSum = 0;
+												player.checkSum = 0;
+												player.smCards.erase(player.smCards.begin(), player.smCards.end());
+												stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+												if (start == "demo") pre_main();
+												else quit = true; //TODO
 												goto finishW;
 											}
 											stickman.setCheckSum(card_up_7);
@@ -794,7 +905,12 @@ void start() {
 													anRes(res, 200, 50);
 													SDL_RenderPresent(gRenderer);
 												}
-												quit = true;
+												stickman.checkSum = 0;
+												player.checkSum = 0;
+												player.smCards.erase(player.smCards.begin(), player.smCards.end());
+												stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+												if (start == "demo") pre_main();
+												else quit = true; //TODO
 												goto finish;
 											}
 											else {
@@ -807,22 +923,62 @@ void start() {
 													anRes(res, 200, 50);
 													SDL_RenderPresent(gRenderer);
 												}
-												quit = true;
+												stickman.checkSum = 0;
+												player.checkSum = 0;
+												player.smCards.erase(player.smCards.begin(), player.smCards.end());
+												stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+												if (start == "demo") pre_main();
+												else quit = true; //TODO
 												goto finish;
 											}
-											quit = true;
+											stickman.checkSum = 0;
+											player.checkSum = 0;
+											player.smCards.erase(player.smCards.begin(), player.smCards.end());
+											stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+											if (start == "demo") pre_main();
+											else quit = true; //TODO
 										}
-										quit = true;
+										stickman.checkSum = 0;
+										player.checkSum = 0;
+										player.smCards.erase(player.smCards.begin(), player.smCards.end());
+										stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+										if (start == "demo") pre_main();
+										else quit = true; //TODO
 									}
-									quit = true;
+									stickman.checkSum = 0;
+									player.checkSum = 0;
+									player.smCards.erase(player.smCards.begin(), player.smCards.end());
+									stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+									if (start == "demo") pre_main();
+									else quit = true; //TODO
 								}
-								quit = true;
+								stickman.checkSum = 0;
+								player.checkSum = 0;
+								player.smCards.erase(player.smCards.begin(), player.smCards.end());
+								stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+								if (start == "demo") pre_main();
+								else quit = true; //TODO
 							}
-							quit = true;
+							stickman.checkSum = 0;
+							player.checkSum = 0;
+							player.smCards.erase(player.smCards.begin(), player.smCards.end());
+							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+							if (start == "demo") pre_main();
+							else quit = true; //TODO
 						}
-						quit = true;
+						stickman.checkSum = 0;
+						player.checkSum = 0;
+						player.smCards.erase(player.smCards.begin(), player.smCards.end());
+						stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+						if (start == "demo") pre_main();
+						else quit = true; //TODO
 					}
-					quit = true;
+					stickman.checkSum = 0;
+					player.checkSum = 0;
+					player.smCards.erase(player.smCards.begin(), player.smCards.end());
+					stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
+					if (start == "demo") pre_main();
+					else quit = true; //TODO
 				}
 
 				gButtons[0].render();
@@ -1607,10 +1763,10 @@ bool loadMedia()
 	{
 		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
 		{
-			gSpriteClips[i].x = 0;
-			gSpriteClips[i].y = i * 70;
-			gSpriteClips[i].w = BUTTON_WIDTH_pre;
-			gSpriteClips[i].h = BUTTON_HEIGHT_pre;
+			gSpriteClipsPrePlay[i].x = 0;
+			gSpriteClipsPrePlay[i].y = i * 80;
+			gSpriteClipsPrePlay[i].w = BUTTON_WIDTH_pre;
+			gSpriteClipsPrePlay[i].h = BUTTON_HEIGHT_pre;
 		}
 		gButtons[2].setPosition(329, 300);
 	}
@@ -1624,10 +1780,10 @@ bool loadMedia()
 	{
 		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
 		{
-			gSpriteClips[i].x = 0;
-			gSpriteClips[i].y = i * 80;
-			gSpriteClips[i].w = BUTTON_WIDTH_reg;
-			gSpriteClips[i].h = BUTTON_HEIGHT_reg;
+			gSpriteClipsRegLog[i].x = 0;
+			gSpriteClipsRegLog[i].y = i * 80;
+			gSpriteClipsRegLog[i].w = BUTTON_WIDTH_reg;
+			gSpriteClipsRegLog[i].h = BUTTON_HEIGHT_reg;
 		}
 		gButtons[3].setPosition(329, 400);
 	}
@@ -3210,13 +3366,13 @@ void LButton::render2()
 
 void LButton::renderPrePlay()
 {
-	gFooTexture_pre_play.render(mPosition.x, mPosition.y, &gSpriteClips[mCurrentSprite]);
+	gFooTexture_pre_play.render(mPosition.x, mPosition.y, &gSpriteClipsPrePlay[mCurrentSprite]);
 
 }
 
 void LButton::renderRegLog()
 {
-	gFooTexture_register_login.render(mPosition.x, mPosition.y, &gSpriteClips[mCurrentSprite]);
+	gFooTexture_register_login.render(mPosition.x, mPosition.y, &gSpriteClipsRegLog[mCurrentSprite]);
 
 }
 
@@ -3477,7 +3633,7 @@ void LButton::handleEventPre(SDL_Event* pre, char p_r) {
 
 				case SDL_MOUSEBUTTONUP:
 					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
-					cout << "KYKAREKY" << endl;
+					start("demo");
 					//cout << "KYKAREKY" << endl;
 					break;
 
@@ -3608,8 +3764,7 @@ void LButton::handleEventStart(SDL_Event* str, char st) {
 
 				case SDL_MOUSEBUTTONUP:
 					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
-					cout << "start" << endl;
-					//cout << "KYKAREKY" << endl;
+					start("demo");
 					break;
 
 				}
