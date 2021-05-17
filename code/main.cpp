@@ -72,6 +72,7 @@ SDL_Rect gSpriteClipsBoards[BUTTON_SPRITE_TOTAL];
 SDL_Rect gSpriteClipsCards[BUTTON_SPRITE_TOTAL];
 
 
+
 LTexture gButtonSpriteSheetTexture;
 LTexture gButtonSpriteSheetTexture2;
 
@@ -180,8 +181,11 @@ LTexture gBackgroundTexture;
 
 LTexture gInputTextTexture;
 LTexture gTextTexture;
-
-
+LTexture gAch;
+LTexture gShop;
+LTexture gBack;
+LTexture gbutton_board;
+LTexture gbutton_cards;
 
 int main(int argc, char* args[])
 {
@@ -1033,9 +1037,20 @@ void shop_cards() {
 		}
 		else
 		{
+			SDL_Event st;
 			bool quit = false;
+			while (SDL_PollEvent(&st) != 0)
+			{
+				//User requests quit
+				if (st.type == SDL_QUIT)
+				{
+					quit = true;
+				}
+				gButtons[8].handleEventBoards(&st, 'S');
+			}
 			while (!quit) {
 				gFooTexture_shop_cards.render(0, 0);
+				gButtons[8].renderBoards();
 				SDL_RenderPresent(gRenderer);
 				SDL_Delay(1);
 			}
@@ -1058,11 +1073,23 @@ void shop_fields() {
 		else
 		{
 			bool quit = false;
+			SDL_Event st;
 			while (!quit) {
+				while (SDL_PollEvent(&st) != 0)
+				{
+					//User requests quit
+					if (st.type == SDL_QUIT)
+					{
+						quit = true;
+					}
+					gButtons[9].handleEventCards(&st, 'S');
+				}
 				gFooTexture_shop_fields.render(0, 0);
+				gButtons[9].renderCards();
 				SDL_RenderPresent(gRenderer);
 				SDL_Delay(1);
 			}
+			
 		}
 	}
 }
@@ -1081,12 +1108,25 @@ void achiv() {
 		}
 		else
 		{
+			SDL_Event st;
 			bool quit = false;
 			while (!quit) {
+				while (SDL_PollEvent(&st) != 0)
+				{
+					//User requests quit
+					if (st.type == SDL_QUIT)
+					{
+						quit = true;
+					}
+					gButtons[7].handleEventBack(&st, 'S');
+				}
+				
 				gFooTexture_achiv.render(0, 0);
+				gButtons[7].renderBack();
 				SDL_RenderPresent(gRenderer);
 				SDL_Delay(1);
 			}
+			
 		}
 	}
 }
@@ -1118,11 +1158,16 @@ void main_manu() {
 					}
 
 					gButtons[4].handleEventStart(&st, 'S');
+					gButtons[5].handleEventAch(&st, 'A');
+					gButtons[6].handleEventShop(&st, 'S');
 					
 				}
 				gFooTexture_main_menu.render(0, 0);
 
 				gButtons[4].renderST();
+				gButtons[5].renderAch();
+				gButtons[6].renderShop();
+				
 				SDL_RenderPresent(gRenderer);
 				SDL_Delay(1);
 			}
@@ -1190,12 +1235,6 @@ bool loadMedia()
 
 	//Loading success flag
 	bool success = true;
-
-
-
-
-
-	
 
 	if (!gFooTexture_pre.loadFromFile("images/pre_main.png", gRenderer))
 	{
@@ -1698,7 +1737,7 @@ bool loadMedia()
 		success = false;
 	}
 
-	if (!gFooTexture_achiv.loadFromFile("images/achivments.png", gRenderer))
+	if (!gFooTexture_achiv.loadFromFile("images/achivments_F.png", gRenderer))
 	{
 		printf("Failed to load achivments texture image!\n");
 		success = false;
@@ -1715,6 +1754,7 @@ bool loadMedia()
 		printf("Failed to load button sprite texture!\n");
 		success = false;
 	}
+	
 	else
 	{
 		//Set sprites
@@ -1805,8 +1845,92 @@ bool loadMedia()
 		gButtons[4].setPosition(85, 479);
 	}
 
-	return success;
+	if (!gAch.loadFromFile("images/achivments.png", gRenderer))
+	{
+		printf("Failed to load achivments texture image!\n");
+		success = false;
+	}
+	else
+	{
+		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
+		{
+			gSpriteClipsAch[i].x = 0;
+			gSpriteClipsAch[i].y = i * 181;
+			gSpriteClipsAch[i].w = 155;
+			gSpriteClipsAch[i].h = 181;
+		}
+		gButtons[5].setPosition(45, 55);
+	}
 
+	if (!gShop.loadFromFile("images/shop.png", gRenderer))
+	{
+		printf("Failed to load achivments texture image!\n");
+		success = false;
+	}
+	else
+	{
+		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
+		{
+			gSpriteClipsShop[i].x = 0;
+			gSpriteClipsShop[i].y = i * 151;
+			gSpriteClipsShop[i].w = 152;
+			gSpriteClipsShop[i].h = 151;
+		}
+		gButtons[6].setPosition(620, 55);
+	}
+
+	if (!gBack.loadFromFile("images/button_back.png", gRenderer))
+	{
+		printf("Failed to load achivments texture image!\n");
+		success = false;
+	}
+	else
+	{
+		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
+		{
+			gSpriteClipsBack[i].x = 0;
+			gSpriteClipsBack[i].y = i * 75;
+			gSpriteClipsBack[i].w = 105;
+			gSpriteClipsBack[i].h = 75;
+		}
+		gButtons[7].setPosition(60, 0);
+	}
+
+	if (!gBack.loadFromFile("images/gbutton_board.png", gRenderer))
+	{
+		printf("Failed to load achivments gbutton_board image!\n");
+		success = false;
+	}
+	else
+	{
+		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
+		{
+			gSpriteClipsBoards[i].x = 0;
+			gSpriteClipsBoards[i].y = i * 80;
+			gSpriteClipsBoards[i].w = 165;
+			gSpriteClipsBoards[i].h = 80;
+		}
+		gButtons[8].setPosition(620, 404);
+	}
+
+	if (!gBack.loadFromFile("images/gbutton_cards.png", gRenderer))
+	{
+		printf("Failed to load achivments gbutton_cards image!\n");
+		success = false;
+	}
+	else
+	{
+		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
+		{
+			gSpriteClipsCards[i].x = 0;
+			gSpriteClipsCards[i].y = i * 76;
+			gSpriteClipsCards[i].w = 161;
+			gSpriteClipsCards[i].h = 76;
+		}
+		gButtons[9].setPosition(620, 404);
+	}
+	
+	return success;
 	
 }
 
@@ -3382,6 +3506,33 @@ void LButton::renderST()
 
 }
 
+void LButton::renderAch()
+{
+	gAch.render(mPosition.x, mPosition.y, &gSpriteClipsAch[mCurrentSprite]);
+
+}
+
+void LButton::renderShop()
+{
+	gShop.render(mPosition.x, mPosition.y, &gSpriteClipsShop[mCurrentSprite]);
+
+}
+
+void LButton::renderBack()
+{
+	gBack.render(mPosition.x, mPosition.y, &gSpriteClipsBack[mCurrentSprite]);
+
+}
+
+void LButton::renderBoards() {
+	gbutton_board.render(mPosition.x, mPosition.y, &gSpriteClipsBoards[mCurrentSprite]);
+
+}
+
+void LButton::renderCards() {
+	gbutton_cards.render(mPosition.x, mPosition.y, &gSpriteClipsCards[mCurrentSprite]);
+}
+
 void LButton::handleEvent(SDL_Event* e, player player, deck cards, string card_up_1, string card_up_2, string  card_dw_1, string  card_dw_2, string card_dw_3, char h_s)
 {
 	if (h_s == 'h') {
@@ -3566,18 +3717,7 @@ void LButton::handleEvent(SDL_Event* e, player player, deck cards, string card_u
 	
 }
 
-void reg()
-{
-	string login, pass;
-	cin >> login;
-	cin >> pass;
-	if (1 == 1) {
-		main_manu();
-	}
-	else {
-		cout << "some";
-	}
-}
+
 
 void LButton::handleEventPre(SDL_Event* pre, char p_r) {
 	if (p_r == 'p') {
@@ -3773,6 +3913,323 @@ void LButton::handleEventStart(SDL_Event* str, char st) {
 	}
 }
 
+void LButton::handleEventAch(SDL_Event* str, char st) {
+	if (st == 'A') {
+		//cout << "ewrwerwerwerwer";		//If mouse event happened
+		if (str->type == SDL_MOUSEMOTION || str->type == SDL_MOUSEBUTTONDOWN || str->type == SDL_MOUSEBUTTONUP)
+		{
+			//Get mouse position
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+
+			//Check if mouse is in button
+			bool inside = true;
+
+			//Mouse is left of the button
+			if (x < mPosition.x)
+			{
+				inside = false;
+			}
+			//Mouse is right of the button
+			else if (x > mPosition.x + 248)
+			{
+				inside = false;
+			}
+			//Mouse above the button
+			else if (y < mPosition.y)
+			{
+				inside = false;
+			}
+			//Mouse below the button
+			else if (y > mPosition.y + 100)
+			{
+				inside = false;
+			}
+
+			//Mouse is outside button
+			if (!inside)
+			{
+				mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+			}
+			//Mouse is inside button
+			else
+			{
+				//Set mouse over sprite
+				switch (str->type)
+				{
+				case SDL_MOUSEMOTION:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+					break;
+
+				case SDL_MOUSEBUTTONDOWN:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+					achiv();
+					break;
+
+				}
+			}
+		}
+	}
+}
+
+void LButton::handleEventShop(SDL_Event* str, char st) {
+	if (st == 'S') {
+		//cout << "ewrwerwerwerwer";		//If mouse event happened
+		if (str->type == SDL_MOUSEMOTION || str->type == SDL_MOUSEBUTTONDOWN || str->type == SDL_MOUSEBUTTONUP)
+		{
+			//Get mouse position
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+
+			//Check if mouse is in button
+			bool inside = true;
+
+			//Mouse is left of the button
+			if (x < mPosition.x)
+			{
+				inside = false;
+			}
+			//Mouse is right of the button
+			else if (x > mPosition.x + 248)
+			{
+				inside = false;
+			}
+			//Mouse above the button
+			else if (y < mPosition.y)
+			{
+				inside = false;
+			}
+			//Mouse below the button
+			else if (y > mPosition.y + 100)
+			{
+				inside = false;
+			}
+
+			//Mouse is outside button
+			if (!inside)
+			{
+				mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+			}
+			//Mouse is inside button
+			else
+			{
+				//Set mouse over sprite
+				switch (str->type)
+				{
+				case SDL_MOUSEMOTION:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+					break;
+
+				case SDL_MOUSEBUTTONDOWN:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+					shop_cards();
+					break;
+
+				}
+			}
+		}
+	}
+}
+
+void LButton::handleEventBack(SDL_Event* str, char st) {
+	if (st == 'S') {
+		//cout << "ewrwerwerwerwer";		//If mouse event happened
+		if (str->type == SDL_MOUSEMOTION || str->type == SDL_MOUSEBUTTONDOWN || str->type == SDL_MOUSEBUTTONUP)
+		{
+			//Get mouse position
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+
+			//Check if mouse is in button
+			bool inside = true;
+
+			//Mouse is left of the button
+			if (x < mPosition.x)
+			{
+				inside = false;
+			}
+			//Mouse is right of the button
+			else if (x > mPosition.x + 248)
+			{
+				inside = false;
+			}
+			//Mouse above the button
+			else if (y < mPosition.y)
+			{
+				inside = false;
+			}
+			//Mouse below the button
+			else if (y > mPosition.y + 100)
+			{
+				inside = false;
+			}
+
+			//Mouse is outside button
+			if (!inside)
+			{
+				mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+			}
+			//Mouse is inside button
+			else
+			{
+				//Set mouse over sprite
+				switch (str->type)
+				{
+				case SDL_MOUSEMOTION:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+					break;
+
+				case SDL_MOUSEBUTTONDOWN:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+					main_manu();
+					break;
+
+				}
+			}
+		}
+	}
+}
+
+void LButton::handleEventBoards(SDL_Event* str, char st) {
+	if (st == 'S') {
+		//cout << "ewrwerwerwerwer";		//If mouse event happened
+		if (str->type == SDL_MOUSEMOTION || str->type == SDL_MOUSEBUTTONDOWN || str->type == SDL_MOUSEBUTTONUP)
+		{
+			//Get mouse position
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+
+			//Check if mouse is in button
+			bool inside = true;
+
+			//Mouse is left of the button
+			if (x < mPosition.x)
+			{
+				inside = false;
+			}
+			//Mouse is right of the button
+			else if (x > mPosition.x + 248)
+			{
+				inside = false;
+			}
+			//Mouse above the button
+			else if (y < mPosition.y)
+			{
+				inside = false;
+			}
+			//Mouse below the button
+			else if (y > mPosition.y + 100)
+			{
+				inside = false;
+			}
+
+			//Mouse is outside button
+			if (!inside)
+			{
+				mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+			}
+			//Mouse is inside button
+			else
+			{
+				//Set mouse over sprite
+				switch (str->type)
+				{
+				case SDL_MOUSEMOTION:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+					break;
+
+				case SDL_MOUSEBUTTONDOWN:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+					shop_fields();
+					break;
+
+				}
+			}
+		}
+	}
+}
+
+void LButton::handleEventCards(SDL_Event* str, char st) {
+	if (st == 'S') {
+		//cout << "ewrwerwerwerwer";		//If mouse event happened
+		if (str->type == SDL_MOUSEMOTION || str->type == SDL_MOUSEBUTTONDOWN || str->type == SDL_MOUSEBUTTONUP)
+		{
+			//Get mouse position
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+
+			//Check if mouse is in button
+			bool inside = true;
+
+			//Mouse is left of the button
+			if (x < mPosition.x)
+			{
+				inside = false;
+			}
+			//Mouse is right of the button
+			else if (x > mPosition.x + 248)
+			{
+				inside = false;
+			}
+			//Mouse above the button
+			else if (y < mPosition.y)
+			{
+				inside = false;
+			}
+			//Mouse below the button
+			else if (y > mPosition.y + 100)
+			{
+				inside = false;
+			}
+
+			//Mouse is outside button
+			if (!inside)
+			{
+				mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+			}
+			//Mouse is inside button
+			else
+			{
+				//Set mouse over sprite
+				switch (str->type)
+				{
+				case SDL_MOUSEMOTION:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+					break;
+
+				case SDL_MOUSEBUTTONDOWN:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+					shop_cards();
+					break;
+
+				}
+			}
+		}
+	}
+}
+
+
+
 void LTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
 {
 	//Set rendering space and render to screen
@@ -3789,3 +4246,15 @@ void LTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* cen
 	SDL_RenderCopyEx(gRenderer, mTexture, clip, &renderQuad, angle, center, flip);
 }
 
+void reg()
+{
+	string login, pass;
+	cin >> login;
+	cin >> pass;
+	if (1 == 1) {
+		main_manu();
+	}
+	else {
+		cout << "some";
+	}
+}
