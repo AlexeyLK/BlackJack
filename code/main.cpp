@@ -17,7 +17,7 @@ void main_manu();
 
 bool init();
 bool loadMedia();
-void close();      
+void close();
 void upCard_1();
 void upCard_2();
 void dwCard_1();
@@ -62,10 +62,10 @@ SDL_Rect gSpriteClips_st[BUTTON_SPRITE_TOTAL];
 SDL_Rect gSpriteClipsPrePlay[BUTTON_SPRITE_TOTAL];
 SDL_Rect gSpriteClipsRegLog[BUTTON_SPRITE_TOTAL];
 SDL_Rect gSpriteClipsBack[BUTTON_SPRITE_TOTAL];
-SDL_Rect gSpriteClipsf1[BUTTON_SPRITE_TOTAL];
-SDL_Rect gSpriteClipsf2[BUTTON_SPRITE_TOTAL];
-SDL_Rect gSpriteClipsf3[BUTTON_SPRITE_TOTAL];
-SDL_Rect gSpriteClipsf4[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsf10[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsf25[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsf50[BUTTON_SPRITE_TOTAL];
+SDL_Rect gSpriteClipsf200[BUTTON_SPRITE_TOTAL];
 SDL_Rect gSpriteClipsShop[BUTTON_SPRITE_TOTAL];
 SDL_Rect gSpriteClipsAch[BUTTON_SPRITE_TOTAL];
 SDL_Rect gSpriteClipsBoards[BUTTON_SPRITE_TOTAL];
@@ -186,16 +186,21 @@ LTexture gShop;
 LTexture gBack;
 LTexture gbutton_board;
 LTexture gbutton_cards;
+LTexture f10;
+LTexture f25;
+LTexture f50;
+LTexture f200;
+
 
 int main(int argc, char* args[])
 {
 	//register_();// TODO
-	pre_main();// TODO
+	//pre_main();// TODO
 	//start(); TODO
 	//shop_cards();// TODO
 	//shop_fields();// TODO
 	//achiv();// TODO
-	//main_manu();// TODO
+	main_manu();// TODO
 	return 0;
 }
 
@@ -215,9 +220,9 @@ void pre_main() {
 		{
 			bool quit = false;
 			SDL_Event pre;
-		
 
-			
+
+
 			while (!quit) {
 				while (SDL_PollEvent(&pre) != 0)
 				{
@@ -233,7 +238,7 @@ void pre_main() {
 
 				gFooTexture_pre.render(0, 0);
 				gButtons[2].renderPrePlay();
-				
+
 				gButtons[3].renderRegLog();
 
 				SDL_RenderPresent(gRenderer);
@@ -398,11 +403,21 @@ void start(string start) {
 							anRes(res, 200, 50);
 							SDL_RenderPresent(gRenderer);
 						}
+
 						stickman.checkSum = 0;
 						player.checkSum = 0;
 						player.smCards.erase(player.smCards.begin(), player.smCards.end());
 						stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-						if (start == "demo") pre_main();
+
+
+						if (start == "demo") {
+							SDL_DestroyRenderer(gRenderer);
+							SDL_DestroyWindow(gWindow);
+							gWindow = NULL;
+							gRenderer = NULL;
+
+							pre_main();
+						}
 						else quit = true; //TODO
 					}
 					if (player.getCheckSum() == 22) {
@@ -426,9 +441,18 @@ void start(string start) {
 							anRes(res, 200, 50);
 							SDL_RenderPresent(gRenderer);
 						}
+
 						stickman.checkSum = 0;
 						player.checkSum = 0;
-						if (start == "demo") pre_main();
+
+						if (start == "demo") {
+							SDL_DestroyRenderer(gRenderer);
+							SDL_DestroyWindow(gWindow);
+							gWindow = NULL;
+							gRenderer = NULL;
+
+							pre_main();
+						}
 						else quit = true; //TODO
 					}
 					if (player.getCheckSum() > 21) {
@@ -455,7 +479,16 @@ void start(string start) {
 							player.checkSum = 0;
 							player.smCards.erase(player.smCards.begin(), player.smCards.end());
 							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-							if (start == "demo") pre_main();
+
+							if (start == "demo") {
+
+								SDL_DestroyRenderer(gRenderer);
+								SDL_DestroyWindow(gWindow);
+								gWindow = NULL;
+								gRenderer = NULL;
+
+								pre_main();
+							}
 							else quit = true; //TODO
 						}
 					}
@@ -481,7 +514,15 @@ void start(string start) {
 						player.checkSum = 0;
 						player.smCards.erase(player.smCards.begin(), player.smCards.end());
 						stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-						if (start == "demo") pre_main();
+
+						if (start == "demo") {
+							SDL_DestroyRenderer(gRenderer);
+							SDL_DestroyWindow(gWindow);
+							gWindow = NULL;
+							gRenderer = NULL;
+
+							pre_main();
+						}
 						else quit = true; //TODO
 					}
 					if (player.getCheckSum() > 21) {
@@ -508,7 +549,15 @@ void start(string start) {
 							player.checkSum = 0;
 							player.smCards.erase(player.smCards.begin(), player.smCards.end());
 							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-							if (start == "demo") pre_main();
+							if (start == "demo") {
+
+								SDL_DestroyRenderer(gRenderer);
+								SDL_DestroyWindow(gWindow);
+								gWindow = NULL;
+								gRenderer = NULL;
+
+								pre_main();
+							}
 							else quit = true; //TODO
 						}
 					}
@@ -533,7 +582,15 @@ void start(string start) {
 						player.checkSum = 0;
 						player.smCards.erase(player.smCards.begin(), player.smCards.end());
 						stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-						if (start == "demo") pre_main();
+						if (start == "demo") {
+
+							SDL_DestroyRenderer(gRenderer);
+							SDL_DestroyWindow(gWindow);
+							gWindow = NULL;
+							gRenderer = NULL;
+
+							pre_main();
+						}
 						else quit = true; //TODO
 					}
 					if (player.getCheckSum() > 21) {
@@ -561,7 +618,15 @@ void start(string start) {
 							player.checkSum = 0;
 							player.smCards.erase(player.smCards.begin(), player.smCards.end());
 							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-							if (start == "demo") pre_main();
+							if (start == "demo") {
+
+								SDL_DestroyRenderer(gRenderer);
+								SDL_DestroyWindow(gWindow);
+								gWindow = NULL;
+								gRenderer = NULL;
+
+								pre_main();
+							}
 							else quit = true; //TODO
 						}
 					}
@@ -582,10 +647,18 @@ void start(string start) {
 							SDL_RenderPresent(gRenderer);
 						}
 						stickman.checkSum = 0;
-						
+
 						player.smCards.erase(player.smCards.begin(), player.smCards.end());
 						stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-						if (start == "demo") pre_main();
+						if (start == "demo") {
+
+							SDL_DestroyRenderer(gRenderer);
+							SDL_DestroyWindow(gWindow);
+							gWindow = NULL;
+							gRenderer = NULL;
+
+							pre_main();
+						}
 						else quit = true; //TODO
 					}
 					if (player.getCheckSum() > 21) {
@@ -612,7 +685,15 @@ void start(string start) {
 							player.checkSum = 0;
 							player.smCards.erase(player.smCards.begin(), player.smCards.end());
 							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-							if (start == "demo") pre_main();
+							if (start == "demo") {
+
+								SDL_DestroyRenderer(gRenderer);
+								SDL_DestroyWindow(gWindow);
+								gWindow = NULL;
+								gRenderer = NULL;
+
+								pre_main();
+							}
 							else quit = true; //TODO
 						}
 					}
@@ -642,7 +723,15 @@ void start(string start) {
 							player.checkSum = 0;
 							player.smCards.erase(player.smCards.begin(), player.smCards.end());
 							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-							if (start == "demo") pre_main();
+							if (start == "demo") {
+
+								SDL_DestroyRenderer(gRenderer);
+								SDL_DestroyWindow(gWindow);
+								gWindow = NULL;
+								gRenderer = NULL;
+
+								pre_main();
+							}
 							else quit = true; //TODO
 						}
 					}
@@ -665,7 +754,15 @@ void start(string start) {
 						player.checkSum = 0;
 						player.smCards.erase(player.smCards.begin(), player.smCards.end());
 						stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-						if (start == "demo") pre_main();
+						if (start == "demo") {
+
+							SDL_DestroyRenderer(gRenderer);
+							SDL_DestroyWindow(gWindow);
+							gWindow = NULL;
+							gRenderer = NULL;
+
+							pre_main();
+						}
 						else quit = true; //TODO
 					}
 					p6++;
@@ -695,7 +792,15 @@ void start(string start) {
 							player.checkSum = 0;
 							player.smCards.erase(player.smCards.begin(), player.smCards.end());
 							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-							if (start == "demo") pre_main();
+							if (start == "demo") {
+
+								SDL_DestroyRenderer(gRenderer);
+								SDL_DestroyWindow(gWindow);
+								gWindow = NULL;
+								gRenderer = NULL;
+
+								pre_main();
+							}
 							else quit = true; //TODO
 							goto finish;
 
@@ -730,7 +835,15 @@ void start(string start) {
 								player.checkSum = 0;
 								player.smCards.erase(player.smCards.begin(), player.smCards.end());
 								stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-								if (start == "demo") pre_main();
+								if (start == "demo")
+								{
+									SDL_DestroyRenderer(gRenderer);
+									SDL_DestroyWindow(gWindow);
+									gWindow = NULL;
+									gRenderer = NULL;
+
+									pre_main();
+								}
 								else quit = true; //TODO
 								goto finish;
 							}
@@ -740,7 +853,15 @@ void start(string start) {
 									player.checkSum = 0;
 									player.smCards.erase(player.smCards.begin(), player.smCards.end());
 									stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-									if (start == "demo") pre_main();
+									if (start == "demo") {
+
+										SDL_DestroyRenderer(gRenderer);
+										SDL_DestroyWindow(gWindow);
+										gWindow = NULL;
+										gRenderer = NULL;
+
+										pre_main();
+									}
 									else quit = true; //TODO
 									goto finishW;
 								}
@@ -775,7 +896,15 @@ void start(string start) {
 									player.smCards.erase(player.smCards.begin(), player.smCards.end());
 									stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
 
-									if (start == "demo") pre_main();
+									if (start == "demo") {
+
+										SDL_DestroyRenderer(gRenderer);
+										SDL_DestroyWindow(gWindow);
+										gWindow = NULL;
+										gRenderer = NULL;
+
+										pre_main();
+									}
 									else quit = true; //TODO
 									goto finish;
 								}
@@ -785,7 +914,15 @@ void start(string start) {
 										player.checkSum = 0;
 										player.smCards.erase(player.smCards.begin(), player.smCards.end());
 										stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-										if (start == "demo") pre_main();
+										if (start == "demo") {
+
+											SDL_DestroyRenderer(gRenderer);
+											SDL_DestroyWindow(gWindow);
+											gWindow = NULL;
+											gRenderer = NULL;
+
+											pre_main();
+										}
 										else quit = true; //TODO
 										goto finishW;
 									}
@@ -820,7 +957,15 @@ void start(string start) {
 										player.checkSum = 0;
 										player.smCards.erase(player.smCards.begin(), player.smCards.end());
 										stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-										if (start == "demo") pre_main();
+										if (start == "demo") {
+
+											SDL_DestroyRenderer(gRenderer);
+											SDL_DestroyWindow(gWindow);
+											gWindow = NULL;
+											gRenderer = NULL;
+
+											pre_main();
+										}
 										else quit = true; //TODO
 										goto finish;
 									}
@@ -830,7 +975,15 @@ void start(string start) {
 											player.checkSum = 0;
 											player.smCards.erase(player.smCards.begin(), player.smCards.end());
 											stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-											if (start == "demo") pre_main();
+											if (start == "demo") {
+
+												SDL_DestroyRenderer(gRenderer);
+												SDL_DestroyWindow(gWindow);
+												gWindow = NULL;
+												gRenderer = NULL;
+
+												pre_main();
+											}
 											else quit = true; //TODO
 											goto finishW;
 										}
@@ -866,7 +1019,15 @@ void start(string start) {
 											player.checkSum = 0;
 											player.smCards.erase(player.smCards.begin(), player.smCards.end());
 											stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-											if (start == "demo") pre_main();
+											if (start == "demo") {
+
+												SDL_DestroyRenderer(gRenderer);
+												SDL_DestroyWindow(gWindow);
+												gWindow = NULL;
+												gRenderer = NULL;
+
+												pre_main();
+											}
 											else quit = true; //TODO
 											goto finish;
 										}
@@ -876,7 +1037,15 @@ void start(string start) {
 												player.checkSum = 0;
 												player.smCards.erase(player.smCards.begin(), player.smCards.end());
 												stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-												if (start == "demo") pre_main();
+												if (start == "demo") {
+
+													SDL_DestroyRenderer(gRenderer);
+													SDL_DestroyWindow(gWindow);
+													gWindow = NULL;
+													gRenderer = NULL;
+
+													pre_main();
+												}
 												else quit = true; //TODO
 												goto finishW;
 											}
@@ -913,7 +1082,15 @@ void start(string start) {
 												player.checkSum = 0;
 												player.smCards.erase(player.smCards.begin(), player.smCards.end());
 												stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-												if (start == "demo") pre_main();
+												if (start == "demo") {
+
+													SDL_DestroyRenderer(gRenderer);
+													SDL_DestroyWindow(gWindow);
+													gWindow = NULL;
+													gRenderer = NULL;
+
+													pre_main();
+												}
 												else quit = true; //TODO
 												goto finish;
 											}
@@ -931,7 +1108,15 @@ void start(string start) {
 												player.checkSum = 0;
 												player.smCards.erase(player.smCards.begin(), player.smCards.end());
 												stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-												if (start == "demo") pre_main();
+												if (start == "demo") {
+
+													SDL_DestroyRenderer(gRenderer);
+													SDL_DestroyWindow(gWindow);
+													gWindow = NULL;
+													gRenderer = NULL;
+
+													pre_main();
+												}
 												else quit = true; //TODO
 												goto finish;
 											}
@@ -939,49 +1124,105 @@ void start(string start) {
 											player.checkSum = 0;
 											player.smCards.erase(player.smCards.begin(), player.smCards.end());
 											stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-											if (start == "demo") pre_main();
+											if (start == "demo") {
+
+												SDL_DestroyRenderer(gRenderer);
+												SDL_DestroyWindow(gWindow);
+												gWindow = NULL;
+												gRenderer = NULL;
+
+												pre_main();
+											}
 											else quit = true; //TODO
 										}
 										stickman.checkSum = 0;
 										player.checkSum = 0;
 										player.smCards.erase(player.smCards.begin(), player.smCards.end());
 										stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-										if (start == "demo") pre_main();
+										if (start == "demo") {
+
+											SDL_DestroyRenderer(gRenderer);
+											SDL_DestroyWindow(gWindow);
+											gWindow = NULL;
+											gRenderer = NULL;
+
+											pre_main();
+										}
 										else quit = true; //TODO
 									}
 									stickman.checkSum = 0;
 									player.checkSum = 0;
 									player.smCards.erase(player.smCards.begin(), player.smCards.end());
 									stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-									if (start == "demo") pre_main();
+									if (start == "demo") {
+
+										SDL_DestroyRenderer(gRenderer);
+										SDL_DestroyWindow(gWindow);
+										gWindow = NULL;
+										gRenderer = NULL;
+
+										pre_main();
+									}
 									else quit = true; //TODO
 								}
 								stickman.checkSum = 0;
 								player.checkSum = 0;
 								player.smCards.erase(player.smCards.begin(), player.smCards.end());
 								stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-								if (start == "demo") pre_main();
+								if (start == "demo") {
+
+									SDL_DestroyRenderer(gRenderer);
+									SDL_DestroyWindow(gWindow);
+									gWindow = NULL;
+									gRenderer = NULL;
+
+									pre_main();
+								}
 								else quit = true; //TODO
 							}
 							stickman.checkSum = 0;
 							player.checkSum = 0;
 							player.smCards.erase(player.smCards.begin(), player.smCards.end());
 							stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-							if (start == "demo") pre_main();
+							if (start == "demo") {
+
+								SDL_DestroyRenderer(gRenderer);
+								SDL_DestroyWindow(gWindow);
+								gWindow = NULL;
+								gRenderer = NULL;
+
+								pre_main();
+							}
 							else quit = true; //TODO
 						}
 						stickman.checkSum = 0;
 						player.checkSum = 0;
 						player.smCards.erase(player.smCards.begin(), player.smCards.end());
 						stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-						if (start == "demo") pre_main();
+						if (start == "demo") {
+
+							SDL_DestroyRenderer(gRenderer);
+							SDL_DestroyWindow(gWindow);
+							gWindow = NULL;
+							gRenderer = NULL;
+
+							pre_main();
+						}
 						else quit = true; //TODO
 					}
 					stickman.checkSum = 0;
 					player.checkSum = 0;
 					player.smCards.erase(player.smCards.begin(), player.smCards.end());
 					stickman.smCards.erase(stickman.smCards.begin(), stickman.smCards.end());
-					if (start == "demo") pre_main();
+					if (start == "demo") {
+
+						SDL_DestroyRenderer(gRenderer);
+						SDL_DestroyWindow(gWindow);
+						gWindow = NULL;
+						gRenderer = NULL;
+
+						pre_main();
+					}
 					else quit = true; //TODO
 				}
 
@@ -1089,7 +1330,7 @@ void shop_fields() {
 				SDL_RenderPresent(gRenderer);
 				SDL_Delay(1);
 			}
-			
+
 		}
 	}
 }
@@ -1120,13 +1361,13 @@ void achiv() {
 					}
 					gButtons[7].handleEventBack(&st, 'S');
 				}
-				
+
 				gFooTexture_achiv.render(0, 0);
 				gButtons[7].renderBack();
 				SDL_RenderPresent(gRenderer);
 				SDL_Delay(1);
 			}
-			
+
 		}
 	}
 }
@@ -1145,7 +1386,7 @@ void main_manu() {
 		}
 		else
 		{
-			
+
 			SDL_Event st;
 			bool quit = false;
 			while (!quit) {
@@ -1160,14 +1401,23 @@ void main_manu() {
 					gButtons[4].handleEventStart(&st, 'S');
 					gButtons[5].handleEventAch(&st, 'A');
 					gButtons[6].handleEventShop(&st, 'S');
-					
+					gButtons[12].handleEventf10(&st, 'f');
+					gButtons[13].handleEventf25(&st, 'f');
+					gButtons[14].handleEventf50(&st, 'f');
+					gButtons[15].handleEventf200(&st, 'f');
+
+
 				}
 				gFooTexture_main_menu.render(0, 0);
 
 				gButtons[4].renderST();
 				gButtons[5].renderAch();
 				gButtons[6].renderShop();
-				
+				gButtons[12].renderf10();
+				gButtons[13].renderf25();
+				gButtons[14].renderf50();
+				gButtons[15].renderf200();
+
 				SDL_RenderPresent(gRenderer);
 				SDL_Delay(1);
 			}
@@ -1748,13 +1998,13 @@ bool loadMedia()
 		printf("Failed to load main_menu texture image!\n");
 		success = false;
 	}
-	
+
 	if (!gButtonSpriteSheetTexture.loadFromFile("images/hit_an.png", gRenderer))
 	{
 		printf("Failed to load button sprite texture!\n");
 		success = false;
 	}
-	
+
 	else
 	{
 		//Set sprites
@@ -1789,9 +2039,9 @@ bool loadMedia()
 			gSpriteClips[i].h = BUTTON_HEIGHT;
 		}
 
-		
+
 		gButtons[1].setPosition(429, 247);
-		
+
 	}
 
 	if (!gFooTexture_pre_play.loadFromFile("images/pre_play.png", gRenderer))
@@ -1799,7 +2049,7 @@ bool loadMedia()
 		printf("Failed to load images/pre_play.png texture image!\n");
 		success = false;
 	}
-	else 
+	else
 	{
 		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
 		{
@@ -1896,7 +2146,7 @@ bool loadMedia()
 		gButtons[7].setPosition(60, 0);
 	}
 
-	if (!gBack.loadFromFile("images/gbutton_board.png", gRenderer))
+	if (!gbutton_board.loadFromFile("images/button_board.png", gRenderer))
 	{
 		printf("Failed to load achivments gbutton_board image!\n");
 		success = false;
@@ -1913,9 +2163,9 @@ bool loadMedia()
 		gButtons[8].setPosition(620, 404);
 	}
 
-	if (!gBack.loadFromFile("images/gbutton_cards.png", gRenderer))
+	if (!gbutton_cards.loadFromFile("images/button_cards.png", gRenderer))
 	{
-		printf("Failed to load achivments gbutton_cards image!\n");
+		printf("Failed to load gbutton_cards image!\n");
 		success = false;
 	}
 	else
@@ -1929,9 +2179,78 @@ bool loadMedia()
 		}
 		gButtons[9].setPosition(620, 404);
 	}
-	
+	//fish)))////////////////////////////////////////////////
+
+	if (!f10.loadFromFile("images/f10.png", gRenderer))
+	{
+		printf("Failed to load f10 image!\n");
+		success = false;
+	}
+	else
+	{
+		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
+		{
+			gSpriteClipsf10[i].x = 0;
+			gSpriteClipsf10[i].y = i * 105;
+			gSpriteClipsf10[i].w = 160;
+			gSpriteClipsf10[i].h = 105;
+		}
+		gButtons[12].setPosition(350, 394);
+	}
+
+	if (!f25.loadFromFile("images/f25.png", gRenderer))
+	{
+		printf("Failed to load f25 image!\n");
+		success = false;
+	}
+	else
+	{
+		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
+		{
+			gSpriteClipsf25[i].x = 0;
+			gSpriteClipsf25[i].y = i * 105;
+			gSpriteClipsf25[i].w = 160;
+			gSpriteClipsf25[i].h = 105;
+		}
+		gButtons[13].setPosition(430, 504);
+	}
+
+	if (!f50.loadFromFile("images/f50.png", gRenderer))
+	{
+		printf("Failed to load f50 image!\n");
+		success = false;
+	}
+	else
+	{
+		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
+		{
+			gSpriteClipsf50[i].x = 0;
+			gSpriteClipsf50[i].y = i * 105;
+			gSpriteClipsf50[i].w = 160;
+			gSpriteClipsf50[i].h = 105;
+		}
+		gButtons[14].setPosition(510, 394);
+	}
+
+	if (!f200.loadFromFile("images/f200.png", gRenderer))
+	{
+		printf("Failed to load f200 image!\n");
+		success = false;
+	}
+	else
+	{
+		for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i)
+		{
+			gSpriteClipsf200[i].x = 0;
+			gSpriteClipsf200[i].y = i * 105;
+			gSpriteClipsf200[i].w = 160;
+			gSpriteClipsf200[i].h = 105;
+		}
+		gButtons[15].setPosition(590, 504);
+	}
+
 	return success;
-	
+
 }
 
 void close()
@@ -2646,12 +2965,12 @@ void upCard_3(player player, string card_up_1, string card_up_2) {
 	string card_dw_7 = player.printSmCards(6);
 	for (int i = 261; i > 53; i--) {
 		gFooTexture.render(31, i);
-		if (countCards == 2) {			
+		if (countCards == 2) {
 			anCard(card_up_1, 680, 53);
 			anCard(card_up_2, 580, 53);
 			anCard(card_dw_1, 680, 470);
 			anCard(card_dw_2, 580, 470);
-			SDL_RenderPresent(gRenderer);			
+			SDL_RenderPresent(gRenderer);
 		}
 		if (countCards == 3) {
 			anCard(card_up_1, 680, 53);
@@ -3533,6 +3852,23 @@ void LButton::renderCards() {
 	gbutton_cards.render(mPosition.x, mPosition.y, &gSpriteClipsCards[mCurrentSprite]);
 }
 
+void LButton::renderf10() {
+	f10.render(mPosition.x, mPosition.y, &gSpriteClipsf10[mCurrentSprite]);
+}
+
+void LButton::renderf25() {
+	f25.render(mPosition.x, mPosition.y, &gSpriteClipsf25[mCurrentSprite]);
+}
+
+void LButton::renderf50() {
+	f50.render(mPosition.x, mPosition.y, &gSpriteClipsf50[mCurrentSprite]);
+}
+
+void LButton::renderf200() {
+	f200.render(mPosition.x, mPosition.y, &gSpriteClipsf200[mCurrentSprite]);
+}
+
+
 void LButton::handleEvent(SDL_Event* e, player player, deck cards, string card_up_1, string card_up_2, string  card_dw_1, string  card_dw_2, string card_dw_3, char h_s)
 {
 	if (h_s == 'h') {
@@ -3714,10 +4050,8 @@ void LButton::handleEvent(SDL_Event* e, player player, deck cards, string card_u
 			}
 		}
 	}
-	
+
 }
-
-
 
 void LButton::handleEventPre(SDL_Event* pre, char p_r) {
 	if (p_r == 'p') {
@@ -3773,6 +4107,12 @@ void LButton::handleEventPre(SDL_Event* pre, char p_r) {
 
 				case SDL_MOUSEBUTTONUP:
 					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+
+					SDL_DestroyRenderer(gRenderer);
+					SDL_DestroyWindow(gWindow);
+					gWindow = NULL;
+					gRenderer = NULL;
+
 					start("demo");
 					//cout << "KYKAREKY" << endl;
 					break;
@@ -3835,11 +4175,14 @@ void LButton::handleEventPre(SDL_Event* pre, char p_r) {
 
 				case SDL_MOUSEBUTTONUP:
 					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
-					
+
+					SDL_DestroyRenderer(gRenderer);
+					SDL_DestroyWindow(gWindow);
+					gWindow = NULL;
+					gRenderer = NULL;
+
 					register_();
 
-					
-					
 					//cout << "KYKAREKY" << endl;
 					break;
 
@@ -3904,6 +4247,12 @@ void LButton::handleEventStart(SDL_Event* str, char st) {
 
 				case SDL_MOUSEBUTTONUP:
 					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+
+					SDL_DestroyRenderer(gRenderer);
+					SDL_DestroyWindow(gWindow);
+					gWindow = NULL;
+					gRenderer = NULL;
+
 					start("demo");
 					break;
 
@@ -3967,6 +4316,12 @@ void LButton::handleEventAch(SDL_Event* str, char st) {
 
 				case SDL_MOUSEBUTTONUP:
 					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+
+					SDL_DestroyRenderer(gRenderer);
+					SDL_DestroyWindow(gWindow);
+					gWindow = NULL;
+					gRenderer = NULL;
+
 					achiv();
 					break;
 
@@ -4030,6 +4385,12 @@ void LButton::handleEventShop(SDL_Event* str, char st) {
 
 				case SDL_MOUSEBUTTONUP:
 					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+
+					SDL_DestroyRenderer(gRenderer);
+					SDL_DestroyWindow(gWindow);
+					gWindow = NULL;
+					gRenderer = NULL;
+
 					shop_cards();
 					break;
 
@@ -4093,6 +4454,12 @@ void LButton::handleEventBack(SDL_Event* str, char st) {
 
 				case SDL_MOUSEBUTTONUP:
 					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+
+					SDL_DestroyRenderer(gRenderer);
+					SDL_DestroyWindow(gWindow);
+					gWindow = NULL;
+					gRenderer = NULL;
+
 					main_manu();
 					break;
 
@@ -4156,6 +4523,12 @@ void LButton::handleEventBoards(SDL_Event* str, char st) {
 
 				case SDL_MOUSEBUTTONUP:
 					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+
+					SDL_DestroyRenderer(gRenderer);
+					SDL_DestroyWindow(gWindow);
+					gWindow = NULL;
+					gRenderer = NULL;
+
 					shop_fields();
 					break;
 
@@ -4219,6 +4592,12 @@ void LButton::handleEventCards(SDL_Event* str, char st) {
 
 				case SDL_MOUSEBUTTONUP:
 					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+
+					SDL_DestroyRenderer(gRenderer);
+					SDL_DestroyWindow(gWindow);
+					gWindow = NULL;
+					gRenderer = NULL;
+
 					shop_cards();
 					break;
 
@@ -4228,7 +4607,253 @@ void LButton::handleEventCards(SDL_Event* str, char st) {
 	}
 }
 
+void LButton::handleEventf10(SDL_Event* str, char st) {
+	if (st == 'f') {
+		//cout << "ewrwerwerwerwer";		//If mouse event happened
+		if (str->type == SDL_MOUSEMOTION || str->type == SDL_MOUSEBUTTONDOWN || str->type == SDL_MOUSEBUTTONUP)
+		{
+			//Get mouse position
+			int x, y;
+			SDL_GetMouseState(&x, &y);
 
+			//Check if mouse is in button
+			bool inside = true;
+
+			//Mouse is left of the button
+			if (x < mPosition.x)
+			{
+				inside = false;
+			}
+			//Mouse is right of the button
+			else if (x > mPosition.x + 150)
+			{
+				inside = false;
+			}
+			//Mouse above the button
+			else if (y < mPosition.y)
+			{
+				inside = false;
+			}
+			//Mouse below the button
+			else if (y > mPosition.y + 100)
+			{
+				inside = false;
+			}
+
+			//Mouse is outside button
+			if (!inside)
+			{
+				mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+			}
+			//Mouse is inside button
+			else
+			{
+				//Set mouse over sprite
+				switch (str->type)
+				{
+				case SDL_MOUSEMOTION:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+					break;
+
+				case SDL_MOUSEBUTTONDOWN:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+					break;
+
+				}
+			}
+		}
+	}
+}
+
+void LButton::handleEventf25(SDL_Event* str, char st) {
+	if (st == 'f') {
+		//cout << "ewrwerwerwerwer";		//If mouse event happened
+		if (str->type == SDL_MOUSEMOTION || str->type == SDL_MOUSEBUTTONDOWN || str->type == SDL_MOUSEBUTTONUP)
+		{
+			//Get mouse position
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+
+			//Check if mouse is in button
+			bool inside = true;
+
+			//Mouse is left of the button
+			if (x < mPosition.x)
+			{
+				inside = false;
+			}
+			//Mouse is right of the button
+			else if (x > mPosition.x + 150)
+			{
+				inside = false;
+			}
+			//Mouse above the button
+			else if (y < mPosition.y)
+			{
+				inside = false;
+			}
+			//Mouse below the button
+			else if (y > mPosition.y + 100)
+			{
+				inside = false;
+			}
+
+			//Mouse is outside button
+			if (!inside)
+			{
+				mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+			}
+			//Mouse is inside button
+			else
+			{
+				//Set mouse over sprite
+				switch (str->type)
+				{
+				case SDL_MOUSEMOTION:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+					break;
+
+				case SDL_MOUSEBUTTONDOWN:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+					break;
+
+				}
+			}
+		}
+	}
+}
+
+void LButton::handleEventf50(SDL_Event* str, char st) {
+	if (st == 'f') {
+		//cout << "ewrwerwerwerwer";		//If mouse event happened
+		if (str->type == SDL_MOUSEMOTION || str->type == SDL_MOUSEBUTTONDOWN || str->type == SDL_MOUSEBUTTONUP)
+		{
+			//Get mouse position
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+
+			//Check if mouse is in button
+			bool inside = true;
+
+			//Mouse is left of the button
+			if (x < mPosition.x)
+			{
+				inside = false;
+			}
+			//Mouse is right of the button
+			else if (x > mPosition.x + 150)
+			{
+				inside = false;
+			}
+			//Mouse above the button
+			else if (y < mPosition.y)
+			{
+				inside = false;
+			}
+			//Mouse below the button
+			else if (y > mPosition.y + 100)
+			{
+				inside = false;
+			}
+
+			//Mouse is outside button
+			if (!inside)
+			{
+				mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+			}
+			//Mouse is inside button
+			else
+			{
+				//Set mouse over sprite
+				switch (str->type)
+				{
+				case SDL_MOUSEMOTION:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+					break;
+
+				case SDL_MOUSEBUTTONDOWN:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+					break;
+
+				}
+			}
+		}
+	}
+}
+
+void LButton::handleEventf200(SDL_Event* str, char st) {
+	if (st == 'f') {
+		//cout << "ewrwerwerwerwer";		//If mouse event happened
+		if (str->type == SDL_MOUSEMOTION || str->type == SDL_MOUSEBUTTONDOWN || str->type == SDL_MOUSEBUTTONUP)
+		{
+			//Get mouse position
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+
+			//Check if mouse is in button
+			bool inside = true;
+
+			//Mouse is left of the button
+			if (x < mPosition.x)
+			{
+				inside = false;
+			}
+			//Mouse is right of the button
+			else if (x > mPosition.x + 150)
+			{
+				inside = false;
+			}
+			//Mouse above the button
+			else if (y < mPosition.y)
+			{
+				inside = false;
+			}
+			//Mouse below the button
+			else if (y > mPosition.y + 100)
+			{
+				inside = false;
+			}
+
+			//Mouse is outside button
+			if (!inside)
+			{
+				mCurrentSprite = BUTTON_SPRITE_MOUSE_OUT;
+			}
+			//Mouse is inside button
+			else
+			{
+				//Set mouse over sprite
+				switch (str->type)
+				{
+				case SDL_MOUSEMOTION:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+					break;
+
+				case SDL_MOUSEBUTTONDOWN:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_DOWN;
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					mCurrentSprite = BUTTON_SPRITE_MOUSE_UP;
+					break;
+
+				}
+			}
+		}
+	}
+}
 
 void LTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
 {
@@ -4249,9 +4874,16 @@ void LTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* cen
 void reg()
 {
 	string login, pass;
+	cout << "Enter login to log or register: " << endl;
 	cin >> login;
+	cout << "Enter password: " << endl;
 	cin >> pass;
+
+	//if(login == "info from db") // ->> if(password == "pass from bd") ->
+	//else login+ to DB, pssword + to DB 
+
 	if (1 == 1) {
+		//
 		main_manu();
 	}
 	else {
